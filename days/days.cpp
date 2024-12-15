@@ -161,7 +161,7 @@ namespace day2 {
 		numPos = numNeg = 0, 0;
 		int lastNegIndex, lastPosIndex;
 		lastNegIndex = lastPosIndex = 0;
-		for (int i = 0; i < input.size() - 1; i++) {
+		for (size_t i = 0; i < input.size() - 1; i++) {
 			int diff = input[i + 1] - input[i];
 			// this gives me the change from i to i + 1
 			if (diff > 0) {
@@ -207,6 +207,71 @@ namespace day2 {
 				return 0;
 			}
 		} 
-		return 
+		return 0;
 	}
 }
+
+
+namespace day3 {
+	std::vector<std::string> readInput() {
+		std::vector<std::string> out;
+		std::ifstream file("input.txt");
+		std::string line;
+		while (std::getline(file, line)) {
+			out.push_back(line);
+		}
+		return out;
+	}
+
+	std::vector<int> getNums(int index, std::string line) {
+		if (index >= line.size()) {
+			return {};
+		}
+		std::string firstNum = "";
+		std::string secondNum = "";
+		bool commaNotEncountered = true;
+		if (line[index] == '(') {
+			for (int i = index + 1; i < line.size(); i++) {
+				if (line[i] == ' ') {
+					continue;
+				}
+				if (line[i] == ',' && commaNotEncountered) {
+					commaNotEncountered = false;
+				} else if (isdigit(line[i])) {
+					if (commaNotEncountered) {
+						firstNum += (line[i]);
+					} else {
+						secondNum += (line[i]);
+					}
+				} else if (line[i] == ')' && firstNum.length() > 0 && secondNum.length() > 0) {
+					std::cout << firstNum << " " << secondNum << "\n";
+					return  {std::stoi(firstNum), std::stoi(secondNum)};
+				} else {
+					return {};
+				}
+			}
+		} 
+		return {};
+		
+	}
+
+	/*std::vector<std::vector<int>>*/ int parseLine(std::string line) {
+		std::string mul = "mul";
+		int total = 0;
+		for (size_t i = 0; i < line.length(); i++) {
+			if (line[i] == 'm') {
+				if (line.substr(i, 3) == mul) {
+					// I have the index of m
+					// index + 2 is the start of the rest of the string
+					std::vector<int> nums = getNums(i + 3, line);
+					if (nums.size() == 2) {
+						total += (nums[0] * nums[1]);
+					}
+					
+				}
+			}
+		}
+		return total;
+	}
+}
+

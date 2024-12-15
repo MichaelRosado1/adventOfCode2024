@@ -5,6 +5,9 @@
 #include <math.h> 
 #include <map>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
 
 
 namespace day1 { 
@@ -18,6 +21,9 @@ namespace day2 {
 	int checkSafe(int i, std::vector<int> input, bool isIncreasing);
 	bool checkDecreasing(std::vector<int>& input);
 	int safeLevels(std::vector<int>& input);
+}
 
-	
+namespace day3 {
+	std::vector<std::string> readInput();
+	int parseLine(std::string line);
 }
